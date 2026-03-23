@@ -1,0 +1,21 @@
+networks:
+  health-ai-nt:
+    driver: bridge
+
+services:
+  health-ai-db:
+    image: postgres:16-alpine
+    environment:
+      - POSTGRES_USER=${HEALTH_AI_DB_USER}
+      - POSTGRES_PASSWORD=${HEALTH_AI_DB_PASSWORD}
+      - POSTGRES_DB=${HEALTH_AI_DB_NAME}
+      - POSTGRES_HOST_AUTH_METHOD=${HEALTH_AI_DB_AUTH_METHOD}
+    ports:
+      - "${HEALTH_AI_DB_PORT}:5432"
+    volumes:
+      - health-ai:/var/lib/postgresql/data
+    networks:
+      - health-ai-nt
+
+volumes:
+  health-ai:
