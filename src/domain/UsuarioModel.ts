@@ -1,4 +1,4 @@
-export class MedicoModel {
+export class UsuarioModel {
   constructor(
     public id: string,
     public nome: string,

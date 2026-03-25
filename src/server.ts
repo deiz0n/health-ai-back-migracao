@@ -1,11 +1,11 @@
 import fastify from 'fastify';
 import 'dotenv/config';
-import { DrizzleMedicoRepository } from './infrastructure/adapters/persistence/DrizzleMedicoRepository';
-import { ExcluirMedicoUseCase } from './application/use-cases/ExcluirMedicoUseCase';
-import { ListarTodosMedicosUseCase } from './application/use-cases/ListarTodosMedicosUseCase';
-import { RegistrarMedicoUseCase } from './application/use-cases/RegistrarMedicoUseCase';
-import { MedicoRestController } from './infrastructure/http/MedicoRestController';
-import { medicoRoutes } from './infrastructure/http/medicoRoutes';
+import { DrizzleUsuarioRepository } from './infrastructure/adapters/persistence/DrizzleUsuarioRepository';
+import { ExcluirUsuarioUseCase } from './application/use-cases/ExcluirUsuarioUseCase';
+import { ListarUsuariosUseCase } from './application/use-cases/ListarUsuariosUseCase';
+import { RegistrarUsuarioUseCase } from './application/use-cases/RegistrarUsuarioUseCase';
+import { UsuarioRestController } from './infrastructure/http/UsuarioRestController';
+import { usuarioRoutes } from './infrastructure/http/usuarioRoutes';
 
 const app = fastify({
   logger: {
@@ -20,20 +20,20 @@ const app = fastify({
   },
 });
 
-const medicoRepository = new DrizzleMedicoRepository();
+const usuarioRepository = new DrizzleUsuarioRepository();
 
-const excluirMedicoUseCase = new ExcluirMedicoUseCase(medicoRepository);
-const listarMedicosUseCase = new ListarTodosMedicosUseCase(medicoRepository);
-const registrarMedicoUseCase = new RegistrarMedicoUseCase(medicoRepository);
+const excluirUsuarioUseCase = new ExcluirUsuarioUseCase(usuarioRepository);
+const listarUsuariosUseCase = new ListarUsuariosUseCase(usuarioRepository);
+const registrarUsuarioUseCase = new RegistrarUsuarioUseCase(usuarioRepository);
 
-const medicoController = new MedicoRestController(
-  excluirMedicoUseCase,
-  listarMedicosUseCase,
-  registrarMedicoUseCase,
+const usuarioController = new UsuarioRestController(
+  excluirUsuarioUseCase,
+  listarUsuariosUseCase,
+  registrarUsuarioUseCase,
 );
 
 app.register(async (instance) => {
-  await medicoRoutes(instance, medicoController);
+  await usuarioRoutes(instance, usuarioController);
 });
 
 const start = async () => {
