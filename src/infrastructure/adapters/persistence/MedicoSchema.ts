@@ -1,7 +1,7 @@
-import { pgTable, serial, timestamp, varchar } from 'drizzle-orm/pg-core';
+import { pgTable, uuid, timestamp, varchar } from 'drizzle-orm/pg-core';
 
 export const medicoSchema = pgTable('tb_medico', {
-  id: serial('id').primaryKey(),
+  id: uuid('id').primaryKey().defaultRandom(),
 
   nome: varchar('nome').notNull(),
 
