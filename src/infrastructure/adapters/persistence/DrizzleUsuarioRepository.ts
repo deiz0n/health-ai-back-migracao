@@ -2,125 +2,56 @@ import { eq } from 'drizzle-orm';
 import type { IUsuarioRepositoryPort } from '../../../application/ports/IUsuarioRepositoryPort';
 import { UsuarioModel } from '../../../domain/UsuarioModel';
 import { db } from '../../database';
-import { UsuarioSchema } from './UsuarioSchema';
+import { usuarioSchema } from './UsuarioSchema';
+import { toModel } from '../../utils/UsuarioMapper';
 
 export class DrizzleUsuarioRepository implements IUsuarioRepositoryPort {
   async excluir(usuarioId: string): Promise<void> {
-    await db.delete(UsuarioSchema).where(eq(UsuarioSchema.id, usuarioId));
+    await db.delete(usuarioSchema).where(eq(usuarioSchema.id, usuarioId));
   }
 
   async listarTodos(): Promise<UsuarioModel[]> {
-    const resultado = await db.select().from(UsuarioSchema);
-
-    return resultado.map(
-      (usuario) =>
-        new UsuarioModel(
-          usuario.id,
-          usuario.nome,
-          usuario.sobrenome,
-          usuario.crm,
-          usuario.email,
-          usuario.createdAt.toDateString(),
-          usuario.updatedAt.toISOString(),
-        ),
-    );
+    const resultado = await db.select().from(usuarioSchema);
+    return resultado.map((usuario) => new UsuarioModel(toModel(usuario)));
   }
 
   async buscarPorId(usuarioId: string): Promise<UsuarioModel | null> {
-    const resultado = await db.select().from(UsuarioSchema).where(eq(UsuarioSchema.id, usuarioId));
-
+    const resultado = await db.select().from(usuarioSchema).where(eq(usuarioSchema.id, usuarioId));
     if (resultado.length === 0) return null;
-
-    const model = resultado[0]!;
-
-    return new UsuarioModel(
-      model.id,
-      model.nome,
-      model.sobrenome,
-      model.crm,
-      model.email,
-      model.createdAt.toDateString(),
-      model.updatedAt.toISOString(),
-    );
+    return new UsuarioModel(toModel(resultado[0]!));
   }
 
   async buscarPorCpf(cpf: string): Promise<UsuarioModel | null> {
-    const resultado = await db.select().from(UsuarioSchema).where(eq(UsuarioSchema.cpf, cpf));
-
+    const resultado = await db.select().from(usuarioSchema).where(eq(usuarioSchema.cpf, cpf));
     if (resultado.length === 0) return null;
-
-    const model = resultado[0]!;
-
-    return new UsuarioModel(
-      model.id,
-      model.nome,
-      model.sobrenome,
-      model.crm,
-      model.email,
-      model.createdAt.toDateString(),
-      model.updatedAt.toISOString(),
-    );
+    return new UsuarioModel(toModel(resultado[0]!));
   }
 
   async buscarPorEmail(email: string): Promise<UsuarioModel | null> {
-    const resultado = await db.select().from(UsuarioSchema).where(eq(UsuarioSchema.email, email));
-
+    const resultado = await db.select().from(usuarioSchema).where(eq(usuarioSchema.email, email));
     if (resultado.length === 0) return null;
-
-    const model = resultado[0]!;
-
-    return new UsuarioModel(
-      model.id,
-      model.nome,
-      model.sobrenome,
-      model.crm,
-      model.email,
-      model.createdAt.toDateString(),
-      model.updatedAt.toISOString(),
-    );
+    return new UsuarioModel(toModel(resultado[0]!));
   }
 
   async buscarPorCrm(crm: string): Promise<UsuarioModel | null> {
-    const resultado = await db.select().from(UsuarioSchema).where(eq(UsuarioSchema.crm, crm));
-
+    const resultado = await db.select().from(usuarioSchema).where(eq(usuarioSchema.crm, crm));
     if (resultado.length === 0) return null;
-
-    const model = resultado[0]!;
-
-    return new UsuarioModel(
-      model.id,
-      model.nome,
-      model.sobrenome,
-      model.crm,
-      model.email,
-      model.createdAt.toDateString(),
-      model.updatedAt.toISOString(),
-    );
+    return new UsuarioModel(toModel(resultado[0]!));
   }
 
   async salvar(usuario: UsuarioModel): Promise<UsuarioModel> {
     const resultado = await db
-      .insert(UsuarioSchema)
+      .insert(usuarioSchema)
       .values({
         nome: usuario.nome,
         sobrenome: usuario.sobrenome,
         email: usuario.email,
         senha: usuario.senha ?? '',
         crm: usuario.crm,
-        cpf: usuario.cpf ?? null,
+        cpf: usuario.cpf ?? undefined,
       })
       .returning();
 
-    const model = resultado[0]!;
-
-    return new UsuarioModel(
-      model.id,
-      model.nome,
-      model.sobrenome,
-      model.crm,
-      model.email,
-      model.createdAt.toDateString(),
-      model.updatedAt.toISOString(),
-    );
+    return new UsuarioModel(toModel(resultado[0]!));
   }
 }
