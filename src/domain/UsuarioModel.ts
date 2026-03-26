@@ -1,13 +1,35 @@
+export interface UsuarioProps {
+  id: string;
+  nome: string;
+  sobrenome: string;
+  crm: string;
+  email: string;
+  senha?: string | undefined;
+  cpf?: string | undefined;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
+}
+
 export class UsuarioModel {
-  constructor(
-    public id: string,
-    public nome: string,
-    public sobrenome: string,
-    public crm: string,
-    public email: string,
-    public senha?: string,
-    public cpf?: string,
-    public createdAt?: Date,
-    public updatedAt?: Date,
-  ) {}
+  id: string;
+  nome: string;
+  sobrenome: string;
+  crm: string;
+  email: string;
+  senha?: string | undefined;
+  cpf?: string | undefined;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
+
+  constructor(props: UsuarioProps) {
+    this.id = props.id;
+    this.nome = props.nome;
+    this.sobrenome = props.sobrenome;
+    this.crm = props.crm;
+    this.email = props.email;
+    this.senha = props.senha;
+    this.cpf = props.cpf;
+    this.createdAt = props.createdAt;
+    this.updatedAt = props.updatedAt;
+  }
 }
