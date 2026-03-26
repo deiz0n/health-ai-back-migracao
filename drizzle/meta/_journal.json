@@ -15,6 +15,13 @@
       "when": 1774408569672,
       "tag": "0001_fluffy_lester",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1774470825981,
+      "tag": "0002_magical_red_hulk",
+      "breakpoints": true
     }
   ]
 }
