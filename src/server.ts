@@ -6,6 +6,7 @@ import { ListarUsuariosUseCase } from './application/use-cases/ListarUsuariosUse
 import { RegistrarUsuarioUseCase } from './application/use-cases/RegistrarUsuarioUseCase';
 import { UsuarioRestController } from './infrastructure/http/UsuarioRestController';
 import { usuarioRoutes } from './infrastructure/http/usuarioRoutes';
+import { globalErrorHandler } from './infrastructure/http/globalErroHandler';
 
 const app = fastify({
   logger: {
@@ -19,6 +20,8 @@ const app = fastify({
     },
   },
 });
+
+globalErrorHandler(app);
 
 const usuarioRepository = new DrizzleUsuarioRepository();
 
