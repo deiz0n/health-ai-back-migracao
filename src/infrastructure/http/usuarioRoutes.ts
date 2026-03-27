@@ -3,7 +3,7 @@ import type { UsuarioRestController } from './UsuarioRestController';
 import type { UsuarioModel } from '../../domain/UsuarioModel';
 
 export async function usuarioRoutes(app: FastifyInstance, medicoController: UsuarioRestController) {
-  app.delete<{ Params: { usuarioId: string } }>('/usuarios/:usuarioId', async (request, reply) => {
+  app.delete<{ Params: { id: string } }>('/usuarios/:id', async (request, reply) => {
     return medicoController.excluir(request, reply);
   });
 

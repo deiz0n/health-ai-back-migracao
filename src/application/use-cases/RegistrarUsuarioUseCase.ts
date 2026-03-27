@@ -1,3 +1,4 @@
+import { UsuarioResponseDTO } from '../../domain/dtos/UsuarioResponseDTO';
 import type { UsuarioModel } from '../../domain/UsuarioModel';
 import { UsuarioExistenteError } from '../errors/UsuarioExistenteError';
 import type { IUsuarioRepositoryPort } from '../ports/IUsuarioRepositoryPort';
@@ -5,9 +6,11 @@ import type { IUsuarioRepositoryPort } from '../ports/IUsuarioRepositoryPort';
 export class RegistrarUsuarioUseCase {
   constructor(private repository: IUsuarioRepositoryPort) {}
 
-  public async execute(model: UsuarioModel): Promise<UsuarioModel> {
+  public async execute(model: UsuarioModel): Promise<UsuarioResponseDTO> {
     await this.validarUsuario(model);
-    return this.repository.salvar(model);
+
+    const usuario = await this.repository.salvar(model);
+    return new UsuarioResponseDTO(usuario);
   }
 
   private async validarUsuario(usuario: UsuarioModel) {
