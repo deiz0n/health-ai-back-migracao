@@ -3,7 +3,7 @@ import { UserRole } from '../../../../domain/models/UserModel';
 
 const roleValues = Object.values(UserRole) as [string, ...string[]];
 
-const userRoleEnum = pgEnum('user_role', roleValues);
+export const userRoleEnum = pgEnum('user_role', roleValues);
 
 export const userEntity = pgTable('tb_user', {
   id: uuid('id').primaryKey().defaultRandom(),
