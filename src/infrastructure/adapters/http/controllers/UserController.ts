@@ -13,8 +13,9 @@ export class UserController {
     private readonly deleteUserUseCase: DeleteUserUseCase,
   ) {}
 
-  register = async (request: FastifyRequest<{ Body: RegisterUserDTO }>, reply: FastifyReply) => {
-    const user = dtoToModel(request.body);
+  register = async (request: FastifyRequest, reply: FastifyReply) => {
+    const body = request.body as RegisterUserDTO;
+    const user = dtoToModel(body);
     const result = await this.registerUserUseCase.execute(user);
 
     return reply.status(201).send(modelToResponseDTO(result));
@@ -27,8 +28,8 @@ export class UserController {
     return reply.status(200).send(result);
   };
 
-  delete = async (request: FastifyRequest<{ Params: UUIDParamDTO }>, reply: FastifyReply) => {
-    const { id } = request.params;
+  delete = async (request: FastifyRequest, reply: FastifyReply) => {
+    const { id } = request.params as UUIDParamDTO;
     await this.deleteUserUseCase.execute(id);
     return reply.status(204).send();
   };

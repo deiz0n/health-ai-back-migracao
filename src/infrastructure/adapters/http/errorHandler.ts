@@ -1,9 +1,21 @@
 import type { FastifyError, FastifyReply, FastifyRequest } from 'fastify';
 import { ResourceAlreadyExistsError } from '../../../application/errors/ResourceAlreadyExistsError';
 import { ResourceNotFoundError } from '../../../application/errors/ResourceNotFoundError';
+import { InvalidCredentialsError } from '../../../application/errors/InvalidCredentialsError';
+import { InvalidTokenError } from '../../../application/errors/InvalidTokenError';
 import { ErrorDTO } from './dtos/ErrorDTO';
 
 export const errorHandler = (error: FastifyError, request: FastifyRequest, reply: FastifyReply) => {
+  if (error instanceof InvalidTokenError)
+    return reply
+      .status(401)
+      .send(new ErrorDTO(401, 'Token inválido', 'UNAUTHORIZED', error.message));
+
+  if (error instanceof InvalidCredentialsError)
+    return reply
+      .status(401)
+      .send(new ErrorDTO(401, 'Credenciais inválidas', 'UNAUTHORIZED', error.message));
+
   if (error instanceof ResourceNotFoundError)
     return reply
       .status(404)
