@@ -3,6 +3,7 @@ import { errorHandler } from './infrastructure/adapters/http/errorHandler';
 import { userRoutes } from './infrastructure/adapters/http/routes/userRoutes';
 import { serializerCompiler, validatorCompiler } from 'fastify-type-provider-zod';
 import 'dotenv/config';
+import { authRoutes } from './infrastructure/adapters/http/routes/authRoutes';
 
 const app = fastify({
   logger: {
@@ -22,6 +23,7 @@ app.setSerializerCompiler(serializerCompiler);
 
 app.setErrorHandler(errorHandler);
 app.register(userRoutes, { prefix: '/api' });
+app.register(authRoutes, { prefix: '/api' });
 
 const port = Number(process.env.HEALTH_AI_API_PORT ?? 3000);
 const host = process.env.HEALTH_AI_API_HOST ?? 'localhost';
