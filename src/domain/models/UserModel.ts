@@ -1,7 +1,7 @@
-enum UserRole {
-  ADMIN = 0,
-  CLINICIAN = 1,
-  PATIENT = 2,
+export enum UserRole {
+  ADMIN = 'ADMIN',
+  CLINICIAN = 'CLINICIAN',
+  PATIENT = 'PATIENT',
 }
 
 export class UserModel {
