@@ -21,7 +21,7 @@ export class AuthenticateUserService implements AuthenticateUserUseCase {
     const isPasswordValid = await this.passwordHasher.compare(credentials.password, user.password);
     if (!isPasswordValid) throw new InvalidCredentialsError();
 
-    const token = this.tokenManager.generate({ sub: user.id });
+    const token = this.tokenManager.generate({ sub: user.id, role: user.role });
 
     return new TokenResponseDTO(token);
   }

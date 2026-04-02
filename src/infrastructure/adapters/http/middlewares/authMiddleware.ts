@@ -11,6 +11,6 @@ export const ensureAuthenticated = async (request: FastifyRequest, reply: Fastif
 
   const [, token] = authHeader.split(' ');
 
-  const decoded = tokenManager.verify(token!);
-  request.user = { id: decoded.sub as string };
+  const decoded = tokenManager.verify(token!) as any;
+  request.user = { id: decoded.sub as string, role: decoded.role };
 };
