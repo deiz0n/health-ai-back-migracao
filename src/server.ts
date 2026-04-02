@@ -22,6 +22,13 @@ app.setValidatorCompiler(validatorCompiler);
 app.setSerializerCompiler(serializerCompiler);
 
 app.setErrorHandler(errorHandler);
+
+import cors from '@fastify/cors';
+
+app.register(cors, {
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+});
+
 app.register(userRoutes, { prefix: '/api' });
 app.register(authRoutes, { prefix: '/api' });
 
